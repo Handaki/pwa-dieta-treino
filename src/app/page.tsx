@@ -116,39 +116,24 @@ export default function FitApp() {
   }
 
   const generateWorkoutPlan = (profile: UserProfile): WorkoutPlan => {
-    // Simplified workout plan generation
     const daysPerWeek = profile.daysPerWeek
     
     if (daysPerWeek <= 3) {
       return generateFullBodyPlan(profile)
     } else if (daysPerWeek === 4) {
       return generateUpperLowerPlan(profile)
-    } else {
+    } else if (daysPerWeek === 5) {
       return generateABCPlan(profile)
+    } else {
+      return generateABCDPlan(profile)
     }
   }
 
   const generateFullBodyPlan = (profile: UserProfile): WorkoutPlan => {
-    const exercises: Exercise[] = [
+    const chestExercises: Exercise[] = [
       {
-        id: '1',
-        name: 'Agachamento Livre',
-        sets: 4,
-        reps: '8-12',
-        weight: 0,
-        rest: 120,
-        completed: false,
-        muscleGroup: 'Pernas',
-        tips: [
-          'Mantenha o core contraído durante todo o movimento',
-          'Desça até as coxas ficarem paralelas ao chão',
-          'Joelhos alinhados com os pés'
-        ],
-        alternatives: []
-      },
-      {
-        id: '2',
-        name: 'Supino Reto',
+        id: 'chest-1',
+        name: 'Supino Reto com Barra',
         sets: 4,
         reps: '8-12',
         weight: 0,
@@ -156,15 +141,104 @@ export default function FitApp() {
         completed: false,
         muscleGroup: 'Peito',
         tips: [
-          'Escápulas retraídas e deprimidas',
-          'Barra na linha dos mamilos',
-          'Cotovelos a 45 graus do corpo'
+          'Escápulas retraídas e deprimidas durante todo movimento',
+          'Barra na linha dos mamilos, não no pescoço',
+          'Cotovelos a 45 graus do corpo, não 90 graus',
+          'Desça controlado (2-3 segundos) e suba explosivo'
         ],
-        alternatives: []
+        alternatives: [
+          {
+            id: 'chest-alt-1',
+            name: 'Supino com Halteres',
+            sets: 4,
+            reps: '8-12',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Peito',
+            tips: ['Maior amplitude de movimento', 'Trabalha estabilizadores'],
+            alternatives: []
+          },
+          {
+            id: 'chest-alt-2',
+            name: 'Supino na Máquina',
+            sets: 4,
+            reps: '10-12',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Peito',
+            tips: ['Mais seguro para iniciantes', 'Foco no músculo alvo'],
+            alternatives: []
+          }
+        ]
       },
       {
-        id: '3',
-        name: 'Remada Curvada',
+        id: 'chest-2',
+        name: 'Supino Inclinado com Halteres',
+        sets: 3,
+        reps: '10-12',
+        weight: 0,
+        rest: 90,
+        completed: false,
+        muscleGroup: 'Peito Superior',
+        tips: [
+          'Banco a 30-45 graus (não mais que isso)',
+          'Halteres descem na linha do peito superior',
+          'Não arqueie demais a lombar',
+          'Aperte o peito no topo do movimento'
+        ],
+        alternatives: [
+          {
+            id: 'chest-alt-3',
+            name: 'Supino Inclinado com Barra',
+            sets: 3,
+            reps: '8-10',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Peito Superior',
+            tips: ['Mais carga possível', 'Ótimo para força'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'chest-3',
+        name: 'Crucifixo Inclinado',
+        sets: 3,
+        reps: '12-15',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Peito',
+        tips: [
+          'Cotovelos levemente flexionados (não travados)',
+          'Movimento amplo, sinta o alongamento',
+          'Não desça demais se sentir desconforto no ombro',
+          'Aperte forte no topo'
+        ],
+        alternatives: [
+          {
+            id: 'chest-alt-4',
+            name: 'Peck Deck (Voador)',
+            sets: 3,
+            reps: '12-15',
+            weight: 0,
+            rest: 60,
+            completed: false,
+            muscleGroup: 'Peito',
+            tips: ['Isolamento máximo', 'Controle total do movimento'],
+            alternatives: []
+          }
+        ]
+      }
+    ]
+
+    const backExercises: Exercise[] = [
+      {
+        id: 'back-1',
+        name: 'Remada Curvada com Barra',
         sets: 4,
         reps: '8-12',
         weight: 0,
@@ -172,49 +246,403 @@ export default function FitApp() {
         completed: false,
         muscleGroup: 'Costas',
         tips: [
-          'Coluna neutra durante todo movimento',
+          'Coluna neutra (não arredonde as costas)',
           'Puxe com os cotovelos, não com as mãos',
-          'Aperte as escápulas no topo'
+          'Aperte as escápulas no topo do movimento',
+          'Joelhos levemente flexionados'
+        ],
+        alternatives: [
+          {
+            id: 'back-alt-1',
+            name: 'Remada Cavalinho',
+            sets: 4,
+            reps: '10-12',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Costas',
+            tips: ['Menos carga na lombar', 'Ótimo para volume'],
+            alternatives: []
+          },
+          {
+            id: 'back-alt-2',
+            name: 'Remada na Máquina',
+            sets: 4,
+            reps: '10-12',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Costas',
+            tips: ['Mais seguro', 'Foco no músculo'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'back-2',
+        name: 'Puxada Frontal',
+        sets: 4,
+        reps: '10-12',
+        weight: 0,
+        rest: 90,
+        completed: false,
+        muscleGroup: 'Costas (Largura)',
+        tips: [
+          'Pegada um pouco mais larga que os ombros',
+          'Puxe até a linha do peito, não atrás da nuca',
+          'Peito para frente, ombros para trás',
+          'Controle na subida (fase excêntrica)'
+        ],
+        alternatives: [
+          {
+            id: 'back-alt-3',
+            name: 'Barra Fixa',
+            sets: 4,
+            reps: 'Máximo',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Costas',
+            tips: ['Exercício mais completo', 'Usa peso corporal'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'back-3',
+        name: 'Remada Unilateral com Halter',
+        sets: 3,
+        reps: '10-12',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Costas',
+        tips: [
+          'Apoie bem o joelho e mão no banco',
+          'Puxe o halter até a linha da cintura',
+          'Não gire o tronco',
+          'Amplitude completa do movimento'
+        ],
+        alternatives: []
+      }
+    ]
+
+    const legExercises: Exercise[] = [
+      {
+        id: 'leg-1',
+        name: 'Agachamento Livre',
+        sets: 4,
+        reps: '8-12',
+        weight: 0,
+        rest: 180,
+        completed: false,
+        muscleGroup: 'Pernas (Quadríceps)',
+        tips: [
+          'Pés na largura dos ombros, pontas levemente para fora',
+          'Desça até coxas paralelas ao chão (ou mais se tiver mobilidade)',
+          'Joelhos alinhados com os pés (não deixe entrar)',
+          'Core contraído, peito para cima',
+          'Olhar para frente, não para baixo'
+        ],
+        alternatives: [
+          {
+            id: 'leg-alt-1',
+            name: 'Agachamento no Smith',
+            sets: 4,
+            reps: '10-12',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Pernas',
+            tips: ['Mais estabilidade', 'Ideal para iniciantes'],
+            alternatives: []
+          },
+          {
+            id: 'leg-alt-2',
+            name: 'Leg Press 45°',
+            sets: 4,
+            reps: '12-15',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Pernas',
+            tips: ['Menos carga na lombar', 'Ótimo para volume'],
+            alternatives: []
+          },
+          {
+            id: 'leg-alt-3',
+            name: 'Agachamento Goblet',
+            sets: 4,
+            reps: '12-15',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Pernas',
+            tips: ['Ótimo para iniciantes', 'Trabalha mobilidade'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'leg-2',
+        name: 'Leg Press 45°',
+        sets: 4,
+        reps: '12-15',
+        weight: 0,
+        rest: 120,
+        completed: false,
+        muscleGroup: 'Pernas',
+        tips: [
+          'Pés na largura dos ombros, meio da plataforma',
+          'Desça até 90 graus (não deixe lombar sair do banco)',
+          'Não trave os joelhos no topo',
+          'Empurre pelos calcanhares'
+        ],
+        alternatives: [
+          {
+            id: 'leg-alt-4',
+            name: 'Hack Machine',
+            sets: 4,
+            reps: '12-15',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Pernas',
+            tips: ['Foco em quadríceps', 'Movimento guiado'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'leg-3',
+        name: 'Stiff (Levantamento Terra Romeno)',
+        sets: 3,
+        reps: '10-12',
+        weight: 0,
+        rest: 120,
+        completed: false,
+        muscleGroup: 'Posterior (Glúteos e Isquios)',
+        tips: [
+          'Joelhos levemente flexionados (não travados)',
+          'Desça a barra próxima às pernas',
+          'Sinta o alongamento nos isquiotibiais',
+          'Não arredonde a lombar',
+          'Empurre o quadril para frente na subida'
+        ],
+        alternatives: [
+          {
+            id: 'leg-alt-5',
+            name: 'Mesa Flexora',
+            sets: 3,
+            reps: '12-15',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Posterior',
+            tips: ['Isolamento de isquiotibiais', 'Seguro para lombar'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'leg-4',
+        name: 'Cadeira Extensora',
+        sets: 3,
+        reps: '12-15',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Quadríceps',
+        tips: [
+          'Ajuste o banco para joelhos alinhados com o eixo',
+          'Extensão completa (aperte no topo)',
+          'Desça controlado',
+          'Não use impulso'
         ],
         alternatives: []
       },
       {
-        id: '4',
+        id: 'leg-5',
+        name: 'Panturrilha em Pé',
+        sets: 4,
+        reps: '15-20',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Panturrilha',
+        tips: [
+          'Amplitude completa (suba o máximo possível)',
+          'Pausa de 1 segundo no topo',
+          'Desça até sentir alongamento',
+          'Não balance'
+        ],
+        alternatives: []
+      }
+    ]
+
+    const shoulderExercises: Exercise[] = [
+      {
+        id: 'shoulder-1',
         name: 'Desenvolvimento com Halteres',
+        sets: 4,
+        reps: '8-12',
+        weight: 0,
+        rest: 120,
+        completed: false,
+        muscleGroup: 'Ombros (Deltoide Anterior e Médio)',
+        tips: [
+          'Costas retas, core contraído',
+          'Não hiperextenda a lombar',
+          'Halteres descem até linha das orelhas',
+          'Movimento controlado na descida'
+        ],
+        alternatives: [
+          {
+            id: 'shoulder-alt-1',
+            name: 'Desenvolvimento com Barra',
+            sets: 4,
+            reps: '8-10',
+            weight: 0,
+            rest: 120,
+            completed: false,
+            muscleGroup: 'Ombros',
+            tips: ['Mais carga possível', 'Ótimo para força'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'shoulder-2',
+        name: 'Elevação Lateral',
+        sets: 4,
+        reps: '12-15',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Ombros (Deltoide Médio)',
+        tips: [
+          'Cotovelos levemente flexionados',
+          'Eleve até altura dos ombros (não mais)',
+          'Não balance o corpo',
+          'Controle na descida'
+        ],
+        alternatives: [
+          {
+            id: 'shoulder-alt-2',
+            name: 'Elevação Lateral na Polia',
+            sets: 4,
+            reps: '12-15',
+            weight: 0,
+            rest: 60,
+            completed: false,
+            muscleGroup: 'Ombros',
+            tips: ['Tensão constante', 'Ótimo para hipertrofia'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'shoulder-3',
+        name: 'Elevação Frontal',
+        sets: 3,
+        reps: '12-15',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Ombros (Deltoide Anterior)',
+        tips: [
+          'Eleve até altura dos olhos',
+          'Não use impulso',
+          'Pode alternar os braços',
+          'Core estável'
+        ],
+        alternatives: []
+      },
+      {
+        id: 'shoulder-4',
+        name: 'Crucifixo Inverso',
+        sets: 3,
+        reps: '12-15',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Ombros (Deltoide Posterior)',
+        tips: [
+          'Incline o tronco a 90 graus',
+          'Cotovelos levemente flexionados',
+          'Abra os braços até linha dos ombros',
+          'Aperte as escápulas'
+        ],
+        alternatives: [
+          {
+            id: 'shoulder-alt-3',
+            name: 'Crucifixo Inverso na Máquina',
+            sets: 3,
+            reps: '12-15',
+            weight: 0,
+            rest: 60,
+            completed: false,
+            muscleGroup: 'Ombros Posterior',
+            tips: ['Mais estável', 'Foco no músculo'],
+            alternatives: []
+          }
+        ]
+      }
+    ]
+
+    const armExercises: Exercise[] = [
+      {
+        id: 'arm-1',
+        name: 'Rosca Direta com Barra',
         sets: 3,
         reps: '10-12',
         weight: 0,
         rest: 90,
         completed: false,
-        muscleGroup: 'Ombros',
-        tips: [
-          'Core estável e contraído',
-          'Não hiperextenda a lombar',
-          'Movimento controlado na descida'
-        ],
-        alternatives: []
-      },
-      {
-        id: '5',
-        name: 'Rosca Direta',
-        sets: 3,
-        reps: '10-15',
-        weight: 0,
-        rest: 60,
-        completed: false,
         muscleGroup: 'Bíceps',
         tips: [
           'Cotovelos fixos ao lado do corpo',
-          'Não balance o corpo',
-          'Controle na fase excêntrica'
+          'Não balance o corpo (sem impulso)',
+          'Controle na descida (2-3 segundos)',
+          'Aperte no topo'
+        ],
+        alternatives: [
+          {
+            id: 'arm-alt-1',
+            name: 'Rosca com Halteres',
+            sets: 3,
+            reps: '10-12',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Bíceps',
+            tips: ['Pode alternar ou simultâneo', 'Maior amplitude'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'arm-2',
+        name: 'Rosca Martelo',
+        sets: 3,
+        reps: '10-12',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Bíceps e Antebraço',
+        tips: [
+          'Pegada neutra (palmas frente a frente)',
+          'Trabalha braquial e braquiorradial',
+          'Cotovelos fixos',
+          'Movimento controlado'
         ],
         alternatives: []
       },
       {
-        id: '6',
-        name: 'Tríceps na Polia',
+        id: 'arm-3',
+        name: 'Tríceps na Polia (Barra Reta)',
         sets: 3,
-        reps: '10-15',
+        reps: '12-15',
         weight: 0,
         rest: 60,
         completed: false,
@@ -222,23 +650,91 @@ export default function FitApp() {
         tips: [
           'Cotovelos fixos ao lado do corpo',
           'Extensão completa dos braços',
-          'Movimento controlado'
+          'Não deixe cotovelos abrirem',
+          'Controle na subida'
+        ],
+        alternatives: [
+          {
+            id: 'arm-alt-2',
+            name: 'Tríceps Testa (Skull Crusher)',
+            sets: 3,
+            reps: '10-12',
+            weight: 0,
+            rest: 90,
+            completed: false,
+            muscleGroup: 'Tríceps',
+            tips: ['Ótimo para massa', 'Cuidado com cotovelos'],
+            alternatives: []
+          }
+        ]
+      },
+      {
+        id: 'arm-4',
+        name: 'Tríceps Francês com Halter',
+        sets: 3,
+        reps: '10-12',
+        weight: 0,
+        rest: 60,
+        completed: false,
+        muscleGroup: 'Tríceps (Cabeça Longa)',
+        tips: [
+          'Cotovelos apontando para cima',
+          'Desça o halter atrás da cabeça',
+          'Extensão completa',
+          'Não deixe cotovelos abrirem'
         ],
         alternatives: []
       }
     ]
 
+    const schedule: DayWorkout[] = [
+      {
+        day: 'Segunda',
+        name: 'Treino A - Peito e Tríceps',
+        exercises: [...chestExercises, ...armExercises.filter(e => e.muscleGroup.includes('Tríceps'))],
+        isRestDay: false
+      },
+      {
+        day: 'Terça',
+        name: 'Treino B - Costas e Bíceps',
+        exercises: [...backExercises, ...armExercises.filter(e => e.muscleGroup.includes('Bíceps'))],
+        isRestDay: false
+      },
+      {
+        day: 'Quarta',
+        name: 'Descanso Ativo',
+        exercises: [],
+        isRestDay: true
+      },
+      {
+        day: 'Quinta',
+        name: 'Treino C - Pernas',
+        exercises: legExercises,
+        isRestDay: false
+      },
+      {
+        day: 'Sexta',
+        name: 'Treino D - Ombros e Abdômen',
+        exercises: shoulderExercises,
+        isRestDay: false
+      },
+      {
+        day: 'Sábado',
+        name: 'Descanso',
+        exercises: [],
+        isRestDay: true
+      },
+      {
+        day: 'Domingo',
+        name: 'Descanso Total',
+        exercises: [],
+        isRestDay: true
+      }
+    ]
+
     return {
       type: 'Full-Body',
-      schedule: [
-        { day: 'Segunda', name: 'Treino Full Body A', exercises, isRestDay: false },
-        { day: 'Terça', name: 'Descanso', exercises: [], isRestDay: true },
-        { day: 'Quarta', name: 'Treino Full Body B', exercises, isRestDay: false },
-        { day: 'Quinta', name: 'Descanso', exercises: [], isRestDay: true },
-        { day: 'Sexta', name: 'Treino Full Body C', exercises, isRestDay: false },
-        { day: 'Sábado', name: 'Descanso', exercises: [], isRestDay: true },
-        { day: 'Domingo', name: 'Descanso Ativo', exercises: [], isRestDay: true }
-      ]
+      schedule
     }
   }
 
@@ -268,6 +764,21 @@ export default function FitApp() {
         { day: 'Sexta', name: 'Treino B - Costas e Bíceps', exercises: [], isRestDay: false },
         { day: 'Sábado', name: 'Descanso', exercises: [], isRestDay: true },
         { day: 'Domingo', name: 'Descanso Ativo', exercises: [], isRestDay: true }
+      ]
+    }
+  }
+
+  const generateABCDPlan = (profile: UserProfile): WorkoutPlan => {
+    return {
+      type: 'ABCD',
+      schedule: [
+        { day: 'Segunda', name: 'Treino A - Peito', exercises: [], isRestDay: false },
+        { day: 'Terça', name: 'Treino B - Costas', exercises: [], isRestDay: false },
+        { day: 'Quarta', name: 'Treino C - Pernas', exercises: [], isRestDay: false },
+        { day: 'Quinta', name: 'Treino D - Ombros e Braços', exercises: [], isRestDay: false },
+        { day: 'Sexta', name: 'Treino A - Peito', exercises: [], isRestDay: false },
+        { day: 'Sábado', name: 'Treino B - Costas', exercises: [], isRestDay: false },
+        { day: 'Domingo', name: 'Descanso', exercises: [], isRestDay: true }
       ]
     }
   }
@@ -304,6 +815,15 @@ export default function FitApp() {
             workout={workoutPlan?.schedule[currentWorkoutDay]}
             onBack={() => setCurrentScreen('dashboard')}
             onPainReport={() => setCurrentScreen('pain-assessment')}
+            onUpdateWorkout={(updatedWorkout) => {
+              if (workoutPlan) {
+                const newSchedule = [...workoutPlan.schedule]
+                newSchedule[currentWorkoutDay] = updatedWorkout
+                const newPlan = { ...workoutPlan, schedule: newSchedule }
+                setWorkoutPlan(newPlan)
+                localStorage.setItem('fitpro-plan', JSON.stringify(newPlan))
+              }
+            }}
           />
         )
       
